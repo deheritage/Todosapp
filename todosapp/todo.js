@@ -1,20 +1,53 @@
 console.log("todoList app is active here");
 const todoList = [];
-console.log("todoList");
+
+const removeItem = (itemNumber) => {
+  document.getElementById("taskList").innerHTML = "";
+  todoList.splice(itemNumber, 1);
+  addTodo();
+};
 
 //create a function to add an item to todoList
 
 const addTodo = (value) => {
-return todoList.push(value);
-}
-//create an addEventListener to click the button
+  if (value) {
+    todoList.push(value);
+  }
+  // console.log("got here");
+
+  todoList.forEach((item, index) => {
+    const nameList = document.getElementById("taskList");
+    const list = document.createElement("li");
+
+    const deleteButton = document.createElement("button");
+    deleteButton.setAttribute("id", item);
+    deleteButton.setAttribute("onclick", "removeItem(" + index + ")");
+    deleteButton.appendChild(document.createTextNode("delete"));
+    console.log(deleteButton);
+
+    const todoText = document.createElement("p");
+    todoText.appendChild(document.createTextNode(item));
+    console.log(todoText);
+
+    //create a text node from the users input
+    list.appendChild(todoText);
+    list.appendChild(deleteButton);
+
+    //adds the users textnode at the end of the list
+    nameList.appendChild(list);
+  });
+
+  document.getElementById("inputName").value = "";
+};
+//add an addEventListener to click the button
 
 document.querySelector("#myBtn").addEventListener("click", () => {
-    //add value in the input text...
-    const inputValue = document.getElementById("inputName").value;
+  //empty the ul child element
+  document.getElementById("taskList").innerHTML = "";
+  //add value in the input text property...
+  const inputValue = document.getElementById("inputName").value;
 
-    //create the innerHTML for the ul id
-    document.getElementById("taskList").innerHTML = '';
-    addTodo(inputValue);
-    console.log("button clicked");
+  addTodo(inputValue);
+  console.log("todoList", todoList);
+  console.log("button clicked");
 });
